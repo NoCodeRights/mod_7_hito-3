@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -12,16 +12,18 @@ import PublishProduct from './pages/PublishProduct';
 import Cart from './pages/Cart';
 import ProtectedRoute from './components/ProtectedRoute';
 import Profile from './pages/Profile';
-import Carrousel from './components/Carrousel';
 import PoliticaPrivacidad from './pages/PoliticaPrivacidad';
+import { UserContext } from './Context/UserContext';
+import { ApiProvider } from './Context/ApiContext';
+
 
 function App() {
-  // Estado de autenticación simulado. 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { token } = useContext(UserContext) || {};
+  console.log("Token en App:", token);
 
   return (
-    <>
-      {/* Pasa el estado de autenticación al Navbar */}
+    <ApiProvider>
       <Header isAuthenticated={isAuthenticated} />
       <main className="container my-4">
         <Routes>
@@ -31,18 +33,16 @@ function App() {
           <Route path="/productos" element={<ProductList />} />
           <Route path="/productos/:id" element={<ProductDetail />} />
           <Route path="/carrito" element={<Cart />} />
-          {/* Ruta protegida: solo accesible si el usuario está autenticado */}
-          <Route 
-            path="/publish" 
+          <Route
+            path="/publish"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <PublishProduct />
               </ProtectedRoute>
             }
           />
-          {/* Ruta protegida para perfil */}
-          <Route 
-            path="/perfil" 
+          <Route
+            path="/perfil"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Profile />
@@ -50,12 +50,10 @@ function App() {
             }
           />
           <Route path="/politica" element={<PoliticaPrivacidad />} />
-          {/* Se puede agregar una ruta para "logout" que limpie la autenticación */}
-          {/* <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} /> */}
         </Routes>
       </main>
       <Footer />
-    </>
+    </ApiProvider>
   );
 }
 

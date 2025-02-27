@@ -1,17 +1,16 @@
-import React from "react";
 import { Carousel } from "react-bootstrap";
 import Mono from "../assets/imgs/mono.jpg";
 import Remera from "../assets/imgs/remera.jpg";
-import Short from "../assets/imgs/short.jpg";
+import Remera1 from "../assets/imgs/remera1.jpg";
 
 const Carrousel = () => {
     return (
-        <div className="container mt-4"> {/* Limita el ancho del carousel */}
+        <div className="container mt-4">
             <Carousel fade>
                 <Carousel.Item interval={1555} className="Carousel">
                     <img 
                         className="d-block w-100 carousel-image" 
-                        src={Short} 
+                        src={Remera1} 
                         alt="Imagen producto Short" 
                     />
                 </Carousel.Item>
